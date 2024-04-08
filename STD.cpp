@@ -10,7 +10,7 @@ void Init(SDL_Window* &win, SDL_Renderer* &ren, int win_width, int win_height)
 		exit(-1);
 	}
 
-	win = SDL_CreateWindow("SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, win_width, win_height, SDL_WINDOW_SHOWN);
+	win = SDL_CreateWindow("SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, win_width, win_height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if (win == NULL)
 	{
 		printf("Ошибка создания окна:%s", SDL_GetError());
