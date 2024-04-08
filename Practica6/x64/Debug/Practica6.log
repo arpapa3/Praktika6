@@ -1,4 +1,4 @@
 ﻿  Main.cpp
-  STD.cpp
-  Создание кода...
+C:\Users\User\source\repos\Praktika6\Main.cpp(41,87): warning C4805: !=: небезопасное смешение типа "const Uint8" и типа "bool" в операции
+C:\Users\User\source\repos\Praktika6\Main.cpp(41,126): warning C4805: !=: небезопасное смешение типа "const Uint8" и типа "bool" в операции
   Practica6.vcxproj -> C:\Users\User\source\repos\Praktika6\x64\Debug\Practica6.exe

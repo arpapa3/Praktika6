@@ -19,6 +19,8 @@ int main(int argc, char** argv)
 		rectpl = true;
 	SDL_Event ev;
 	SDL_Rect rect = { 0, 0, 0, win_height };
+	const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+
 	while (run)
 	{
 		//ќбработка событий
@@ -34,13 +36,14 @@ int main(int argc, char** argv)
 					run = false;
 			}
 				break;
-			//—ейчас продолжает рабоать только при нажатии 0 нужно будет доработать
+			//ѕродолжение работы при нажатии любой клавиши
 			case SDL_KEYDOWN:
-				if (ev.key.keysym.scancode == SDL_SCANCODE_0)
+				if ((ev.key.keysym.scancode != SDL_SCANCODE_F4 && (keyboard[SDL_SCANCODE_LALT] != true || keyboard[SDL_SCANCODE_RALT] != true)))
 					quit = false;
 				break;
 			}
 		}
+
 		if (!quit)
 		{
 			//≈сли небыло забыти€ закрыти€ окна то выполн€етс€ это
