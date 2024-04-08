@@ -8,6 +8,8 @@ SDL_Renderer* ren = NULL;
 int win_width = 1000;
 int win_height = 1000;
 
+#define FPS 60
+
 int main(int argc, char** argv)
 {
 	system("chcp 1251>nul");
@@ -16,11 +18,12 @@ int main(int argc, char** argv)
 	SDL_Color background = { 255, 255, 255, 255 };
 	int i = 0;
 	bool run = true,
-		quit = false,
-		rectpl = true;
+		quit = false;
 	SDL_Event ev;
-	SDL_Rect rect = { 0, 0, 0, win_height };
+
 	const Uint8* keyboard = SDL_GetKeyboardState(NULL);
+
+	Uint32 time = SDL_GetTicks(), oltime = 0;
 
 	while (run)
 	{
@@ -45,37 +48,28 @@ int main(int argc, char** argv)
 			}
 		}
 
+		time = SDL_GetTicks();
 		if (!quit)
 		{
-#pragma region 1
-			if ((keyboard[SDL_SCANCODE_KP_PLUS] || keyboard[SDL_SCANCODE_KP_MINUS]) && 
-				(keyboard[SDL_SCANCODE_R] || keyboard[SDL_SCANCODE_G] || keyboard[SDL_SCANCODE_B]))
+			if (time - oltime >= 1000 / FPS)
 			{
-				if (keyboard[SDL_SCANCODE_R])
-					background.r = background.r + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
-				if (keyboard[SDL_SCANCODE_G])
-					background.g = background.g + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
-				if (keyboard[SDL_SCANCODE_B])
-					background.b = background.b + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
-			}
+#pragma region 1
+				if ((keyboard[SDL_SCANCODE_KP_PLUS] || keyboard[SDL_SCANCODE_KP_MINUS]) &&
+					(keyboard[SDL_SCANCODE_R] || keyboard[SDL_SCANCODE_G] || keyboard[SDL_SCANCODE_B]))
+				{
+					if (keyboard[SDL_SCANCODE_R])
+						background.r = background.r + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
+					if (keyboard[SDL_SCANCODE_G])
+						background.g = background.g + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
+					if (keyboard[SDL_SCANCODE_B])
+						background.b = background.b + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
+				}
 #pragma endregion //1
-			//Если небыло забытия закрытия окна то выполняется это
-			printf("Обработка\n");
-			if (rectpl)
-				if (rect.w < win_width)
-					rect.w++;
-				else
-					rectpl = false;
-			else
-				if (rect.w > 0)
-					rect.w--;
-				else
-					rectpl = true;
+				oltime = time;
+			}
 
 			SDL_SetRenderDrawColor(ren, background.r, background.g, background.b, 255);
 			SDL_RenderClear(ren);
-			//SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-			//SDL_RenderFillRect(ren, &rect);
 		}		
 		else
 		{
