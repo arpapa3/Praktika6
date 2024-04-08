@@ -13,6 +13,7 @@ int main(int argc, char** argv)
 	system("chcp 1251>nul");
 	Init(win, ren, win_width, win_height);
 
+	SDL_Color background = { 255, 255, 255, 255 };
 	int i = 0;
 	bool run = true,
 		quit = false,
@@ -46,6 +47,18 @@ int main(int argc, char** argv)
 
 		if (!quit)
 		{
+#pragma region 1
+			if ((keyboard[SDL_SCANCODE_KP_PLUS] || keyboard[SDL_SCANCODE_KP_MINUS]) && 
+				(keyboard[SDL_SCANCODE_R] || keyboard[SDL_SCANCODE_G] || keyboard[SDL_SCANCODE_B]))
+			{
+				if (keyboard[SDL_SCANCODE_R])
+					background.r = background.r + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
+				if (keyboard[SDL_SCANCODE_G])
+					background.g = background.g + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
+				if (keyboard[SDL_SCANCODE_B])
+					background.b = background.b + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
+			}
+#pragma endregion //1
 			//Если небыло забытия закрытия окна то выполняется это
 			printf("Обработка\n");
 			if (rectpl)
@@ -59,10 +72,10 @@ int main(int argc, char** argv)
 				else
 					rectpl = true;
 
-			SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
+			SDL_SetRenderDrawColor(ren, background.r, background.g, background.b, 255);
 			SDL_RenderClear(ren);
-			SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-			SDL_RenderFillRect(ren, &rect);
+			//SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+			//SDL_RenderFillRect(ren, &rect);
 		}		
 		else
 		{
