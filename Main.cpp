@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 {
 	system("chcp 1251>nul");
 	Init(win, ren, win_width, win_height);
-	double time = SDL_GetTicks(), oltime = 0, dltime = 0;
+	Uint32 time = SDL_GetTicks(), oltime = 0, dltime = 0;
 	const Uint8* keyboard = SDL_GetKeyboardState(NULL);
 	color background = { 255, 255, 255 };
 	bool run = true, quit = false;
@@ -84,7 +84,7 @@ int main(int argc, char** argv)
 			{
 				if (keyboard[SDL_SCANCODE_R])
 				{
-					background.r = background.r + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * dltime / 1000 : -COLOR_SPEED * dltime / 1000);
+					background.r = background.r + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * (dltime / 1000.0) : -COLOR_SPEED * (dltime / 1000.0));
 					if (background.r > 255)
 						background.r -= 255;
 					if (background.r < 0)
@@ -92,8 +92,7 @@ int main(int argc, char** argv)
 				}
 				if (keyboard[SDL_SCANCODE_G])
 				{
-
-					background.g = background.g + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * dltime / 1000 : -COLOR_SPEED * dltime / 1000);
+					background.g = background.g + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * (dltime / 1000.0) : -COLOR_SPEED * (dltime / 1000.0));
 					if (background.g > 255)
 						background.g -= 255;
 					if (background.g < 0)
@@ -101,7 +100,7 @@ int main(int argc, char** argv)
 				}
 				if (keyboard[SDL_SCANCODE_B])
 				{
-					background.b = background.b + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * dltime / 1000 : -COLOR_SPEED * dltime / 1000);
+					background.b = background.b + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * (dltime / 1000.0) : -COLOR_SPEED * (dltime / 1000.0));
 					if (background.b > 255)
 						background.b -= 255;
 					if (background.b < 0)
@@ -118,6 +117,7 @@ int main(int argc, char** argv)
 			SDL_RenderClear(ren);
 		}
 		SDL_RenderPresent(ren);
+		printf("R:%f\nG:%f\nB:%f\n\n", background.r, background.g, background.b);
 	}
 	DeInit(win, ren, 0);
 	return 0;

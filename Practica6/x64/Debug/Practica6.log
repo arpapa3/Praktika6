@@ -1,10 +1,10 @@
 ﻿  Main.cpp
-C:\Users\User\source\repos\Praktika6\Main.cpp(44,38): warning C4805: !=: небезопасное смешение типа "const Uint8" и типа "bool" в операции
-C:\Users\User\source\repos\Praktika6\Main.cpp(44,77): warning C4805: !=: небезопасное смешение типа "const Uint8" и типа "bool" в операции
+C:\Users\User\source\repos\Praktika6\Main.cpp(43,87): warning C4805: !=: небезопасное смешение типа "const Uint8" и типа "bool" в операции
+C:\Users\User\source\repos\Praktika6\Main.cpp(43,126): warning C4805: !=: небезопасное смешение типа "const Uint8" и типа "bool" в операции
 C:\Users\User\source\repos\Praktika6\Main.cpp(87,34): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-C:\Users\User\source\repos\Praktika6\Main.cpp(96,34): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-C:\Users\User\source\repos\Praktika6\Main.cpp(104,34): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-C:\Users\User\source\repos\Praktika6\Main.cpp(111,70): warning C4244: аргумент: преобразование "float" в "Uint8", возможна потеря данных
-C:\Users\User\source\repos\Praktika6\Main.cpp(111,56): warning C4244: аргумент: преобразование "float" в "Uint8", возможна потеря данных
-C:\Users\User\source\repos\Praktika6\Main.cpp(111,42): warning C4244: аргумент: преобразование "float" в "Uint8", возможна потеря данных
+C:\Users\User\source\repos\Praktika6\Main.cpp(95,34): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\User\source\repos\Praktika6\Main.cpp(103,34): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\User\source\repos\Praktika6\Main.cpp(110,70): warning C4244: аргумент: преобразование "float" в "Uint8", возможна потеря данных
+C:\Users\User\source\repos\Praktika6\Main.cpp(110,56): warning C4244: аргумент: преобразование "float" в "Uint8", возможна потеря данных
+C:\Users\User\source\repos\Praktika6\Main.cpp(110,42): warning C4244: аргумент: преобразование "float" в "Uint8", возможна потеря данных
   Practica6.vcxproj -> C:\Users\User\source\repos\Praktika6\x64\Debug\Practica6.exe
