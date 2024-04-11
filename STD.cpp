@@ -47,19 +47,3 @@ void WinCoord(SDL_Point coord, SDL_Point coord0, double scale, SDL_Point& rez)
 {
 	rez = { (int)(coord0.x + coord.x * scale), (int)(coord0.y - coord.y * scale) };
 }
-
-bool FPS(int fps)
-{
-	static int newtime, lasttime = 0, dt;
-	newtime = SDL_GetTicks();
-	dt = newtime - lasttime;
-	if (dt == 0)
-		return 0;
-	if (1000 / dt <= fps)
-	{
-		lasttime = newtime;
-		return 1;
-	}
-	else
-		return 0;
-}
