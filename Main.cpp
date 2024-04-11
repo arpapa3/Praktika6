@@ -8,19 +8,25 @@ SDL_Renderer* ren = NULL;
 int win_width = 800;
 int win_height = 800;
 
-#define FPS 60
+SDL_Color save_color[3] = { {255, 255, 255, 255}, {255, 255, 255, 255} , {255, 255, 255, 255} };
+
+struct color
+{
+	float r, g, b;
+};
+
+#define COLOR_SPEED 60
 
 int main(int argc, char** argv)
 {
 	system("chcp 1251>nul");
 	Init(win, ren, win_width, win_height);
-	SDL_Color background = { 255, 255, 255, 255 };
-	int i = 0;
-	bool run = true,
-		quit = false;
-	SDL_Event ev;
+	double time = SDL_GetTicks(), oltime = 0, dltime = 0;
 	const Uint8* keyboard = SDL_GetKeyboardState(NULL);
-	Uint32 time = SDL_GetTicks(), oltime = 0;
+	color background = { 255, 255, 255 };
+	bool run = true, quit = false;
+	SDL_Event ev;
+
 	while (run)
 	{
 		//Обработка событий
@@ -34,8 +40,7 @@ int main(int argc, char** argv)
 				break;
 			//Продолжение работы при нажатии любой клавиши
 			case SDL_KEYDOWN:
-				if ((ev.key.keysym.scancode != SDL_SCANCODE_F4 && 
-					(keyboard[SDL_SCANCODE_LALT] != true || keyboard[SDL_SCANCODE_RALT] != true)))
+				if ((ev.key.keysym.scancode != SDL_SCANCODE_F4 && (keyboard[SDL_SCANCODE_LALT] != true || keyboard[SDL_SCANCODE_RALT] != true)))
 					quit = false;
 				break;
 			case SDL_WINDOWEVENT:
@@ -46,36 +51,73 @@ int main(int argc, char** argv)
 				}
 			}
 		}
+
 		time = SDL_GetTicks();
+		dltime = time - oltime;
+		oltime = time;
+
 		if (!quit)
 		{
-			if (time - oltime >= 1000 / FPS)
+			/*Сохранение и изменение цвета окна*/
+			//Сохраненние цвета окна
+			if (keyboard[SDL_SCANCODE_1] || keyboard[SDL_SCANCODE_2] || keyboard[SDL_SCANCODE_3])
 			{
-#pragma region 1
-				if ((keyboard[SDL_SCANCODE_KP_PLUS] || keyboard[SDL_SCANCODE_KP_MINUS]) &&
-					(keyboard[SDL_SCANCODE_R] || keyboard[SDL_SCANCODE_G] || keyboard[SDL_SCANCODE_B]))
+				if (keyboard[SDL_SCANCODE_1])
+					if (keyboard[SDL_SCANCODE_LCTRL] || keyboard[SDL_SCANCODE_RCTRL])
+						background = { (float)save_color[0].r, (float)save_color[0].g, (float)save_color[0].b };
+					else
+						save_color[0] = { (unsigned char)background.r, (unsigned char)background.g, (unsigned char)background.b, 255 };
+				if(keyboard[SDL_SCANCODE_2])
+					if (keyboard[SDL_SCANCODE_LCTRL] || keyboard[SDL_SCANCODE_RCTRL])
+						background = { (float)save_color[1].r, (float)save_color[1].g, (float)save_color[1].b };
+					else
+						save_color[1] = { (unsigned char)background.r, (unsigned char)background.g, (unsigned char)background.b, 255 };
+				if (keyboard[SDL_SCANCODE_3])
+					if (keyboard[SDL_SCANCODE_LCTRL] || keyboard[SDL_SCANCODE_RCTRL])
+						background = { (float)save_color[2].r, (float)save_color[2].g, (float)save_color[2].b };
+					else
+						save_color[2] = { (unsigned char)background.r, (unsigned char)background.g, (unsigned char)background.b, 255 };
+			}
+
+			//Изменение цвета окна
+			if ((keyboard[SDL_SCANCODE_KP_PLUS] || keyboard[SDL_SCANCODE_KP_MINUS]) && (keyboard[SDL_SCANCODE_R] || keyboard[SDL_SCANCODE_G] || keyboard[SDL_SCANCODE_B]))
+			{
+				if (keyboard[SDL_SCANCODE_R])
 				{
-					if (keyboard[SDL_SCANCODE_R])
-						background.r = background.r + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
-					if (keyboard[SDL_SCANCODE_G])
-						background.g = background.g + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
-					if (keyboard[SDL_SCANCODE_B])
-						background.b = background.b + (keyboard[SDL_SCANCODE_KP_PLUS] ? 1 : -1);
+					background.r = background.r + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * dltime / 1000 : -COLOR_SPEED * dltime / 1000);
+					if (background.r > 255)
+						background.r -= 255;
+					if (background.r < 0)
+						background.r += 255;
 				}
-#pragma endregion //1
-				oltime = time;
+				if (keyboard[SDL_SCANCODE_G])
+				{
+
+					background.g = background.g + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * dltime / 1000 : -COLOR_SPEED * dltime / 1000);
+					if (background.g > 255)
+						background.g -= 255;
+					if (background.g < 0)
+						background.g += 255;
+				}
+				if (keyboard[SDL_SCANCODE_B])
+				{
+					background.b = background.b + (keyboard[SDL_SCANCODE_KP_PLUS] ? COLOR_SPEED * dltime / 1000 : -COLOR_SPEED * dltime / 1000);
+					if (background.b > 255)
+						background.b -= 255;
+					if (background.b < 0)
+						background.b += 255;
+				}
 			}
 			SDL_SetRenderDrawColor(ren, background.r, background.g, background.b, 255);
 			SDL_RenderClear(ren);
-		}		
+			/*Конец работы с цветом фона*/
+		}
 		else
 		{
-			//Если событие было то выполняется это
 			SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 			SDL_RenderClear(ren);
 		}
 		SDL_RenderPresent(ren);
-		printf("%dx%d\n", win_width, win_height);
 	}
 	DeInit(win, ren, 0);
 	return 0;
